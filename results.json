@@ -1,0 +1,50 @@
+{
+  "name": "Rishabh Srivastava",
+  "roll_no": "24B2188",
+  "seed": 42,
+  "training_setup": {
+    "optimizer": "SGD momentum=0.9 weight_decay=5e-4 nesterov=True",
+    "learning_rate_schedule": "linear warmup per-iter epochs 1-5 (0->0.1), cosine T_max=55 epochs 6-60",
+    "batch_size": 128,
+    "epochs": 60,
+    "augmentation": "RandomCrop(32, padding=4) + RandomHorizontalFlip (GPU-side, per-image offsets)",
+    "gpu_used": "NVIDIA Tesla T4 (Google Colab)"
+  },
+  "task1": {
+    "noise_rate": 40.24,
+    "val_acc_noisy_labels__clean_ref_model": 59.16,
+    "val_acc_noisy_labels__noisy_ce_model": 50.94
+  },
+  "task2": {
+    "memorization_start_epoch": 38,
+    "early_stop_epoch": 35,
+    "val_acc_noisy_labels_at_early_stop": 55.72
+  },
+  "task3": {
+    "method": "5-fold stratified CV out-of-fold CE loss (-log p(noisy_label)) + logit-space margin (0.6/0.4 rank combination). No class-wise normalization (per-class noise rates span 28-51.5%). Signal chosen a priori; AUROC computed post-hoc in code/task3_analysis.json."
+  },
+  "task4": {
+    "methods": [
+      {
+        "name": "sce",
+        "file": "t4_sce.csv",
+        "val_acc_noisy_labels": 57.24
+      },
+      {
+        "name": "co_teaching",
+        "file": "t4_co_teaching.csv",
+        "val_acc_noisy_labels": 57.72
+      },
+      {
+        "name": "filter_retrain",
+        "file": "t4_filter_retrain.csv",
+        "val_acc_noisy_labels": 56.5
+      }
+    ],
+    "best_method": "co_teaching"
+  },
+  "task5": {
+    "val_acc_synthetic_labels__baseline": 43.74,
+    "val_acc_synthetic_labels__best_method": 53.52
+  }
+}
